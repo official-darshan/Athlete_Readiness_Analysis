@@ -67,27 +67,31 @@ pip install -r requirements.txt
 
 ## 5. Docker Deployment
 
-The project includes a `Dockerfile` for containerized API deployment.
+Docker Compose runs the FastAPI API and Streamlit dashboard together. From
+the project root, build and start both services with:
 
-Build the Docker image from the project root:
+```bash
+docker compose up --build
+```
+
+The dashboard is available at `http://127.0.0.1:8501`. The API is available at
+`http://127.0.0.1:8000`, with Swagger documentation at
+`http://127.0.0.1:8000/docs`. Compose waits for the API health check before
+starting the dashboard. The dashboard uses the internal `api` service address
+when running in Compose.
+
+Stop the services with:
+
+```bash
+docker compose down
+```
+
+To run only the API with the Dockerfile, build and start its image:
 
 ```bash
 docker build -t athlete-readiness-api .
+docker run --rm -p 8000:8000 -v .\data:/app/data:ro athlete-readiness-api
 ```
-
-Run the container:
-
-```bash
-docker run -p 8000:8000 athlete-readiness-api
-```
-
-The API can then be accessed at:
-
-`http://127.0.0.1:8000`
-
-Swagger documentation:
-
-`http://127.0.0.1:8000/docs`
 
 ---
 
@@ -178,5 +182,4 @@ The project supports local deployment of the FastAPI service and Streamlit dashb
 Docker deployment configuration is also included through the project `Dockerfile`.
 
 Production deployment requires additional security, authentication, HTTPS, monitoring and infrastructure configuration.
-
 
