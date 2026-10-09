@@ -1,8 +1,10 @@
+import os
+
 import streamlit as st
 import pandas as pd
 import requests
 
-API_URL = "http://127.0.0.1:8000"
+API_URL = os.getenv("API_URL", "http://127.0.0.1:8000")
 
 def get_athlete_from_api(athlete_id):
     try:
@@ -379,4 +381,3 @@ st.line_chart(
         ["Recovery_Score", "Sleep_Hours"]
     ]
 )
-
